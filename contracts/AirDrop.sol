@@ -8,7 +8,7 @@ import "./ClientAddress.sol";
 
 contract AirDrop is  Ownable, Initializable{
 
-    mapping(address => uint256) private _balances;
+    mapping(address => uint256) private _balances; // 여기부터
     ClientAddress public clientAddress;
 
 
@@ -37,7 +37,7 @@ contract AirDrop is  Ownable, Initializable{
         for (uint256 i = 0; i < count; i++)
         {
             /* calling transfer function from contract */
-            _transfer(clientList[i], _amount);
+            transfer(clientList[i], _amount);
             
         }
     }
@@ -46,7 +46,7 @@ contract AirDrop is  Ownable, Initializable{
     function sendBath(address payable [] calldata _recipients, uint[] calldata _values) onlyOwner external returns (bool success) {
         require(_recipients.length == _values.length);
         for (uint i = 0; i <_values.length; i++) {
-            _transfer(_recipients[i], _values[i]);
+            transfer(_recipients[i], _values[i]);
         }
         return true;
     }
@@ -60,6 +60,19 @@ contract AirDrop is  Ownable, Initializable{
         return clientAddress.getClientAddress();
     }
 
+    /**
+     * @dev See {IERC20-transfer}.
+     *
+     * Requirements:
+     *
+     * - `to` cannot be the zero address.
+     * - the caller must have a balance of at least `amount`.
+     */
+    function transfer(address to, uint256 amount) public  returns (bool) {
+        address owner = _msgSender();
+        _transfer(owner, to, amount);
+        return true;
+    }
     function _transfer(
         address from,
         address to,
