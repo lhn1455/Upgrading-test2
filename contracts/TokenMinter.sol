@@ -10,10 +10,10 @@ contract TokenMinter {
 
      event Transfer(address indexed from, address indexed to, uint256 value);
 
-    constructor (string memory name_, string memory symbol_)  {
+    constructor (string memory name_, string memory symbol_, address payable tokenHold)  {
           _name = name_;
         _symbol = symbol_;
-        _mint(address(this), 100*10**uint(18));
+        _mint(tokenHold, 100*10**uint(18));
     }
 
     /**
