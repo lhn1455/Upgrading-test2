@@ -21,7 +21,7 @@ async function main() {
             console.log("clientListFromAirdop : ", clientList[i]);
             const balances = await tokenHolder.balanceOf(clientList[i]);
             console.log("balances : ", balances)
-         
+          
         }
 
     console.log("Proxy contract address (AirDrop deployed to) : ", airDrop.address);
