@@ -19,15 +19,10 @@ async function main() {
     const clientList = await airDrop.getClientAddress();
         for (let i =0; i < clientList.length; i++){
             console.log("clientListFromAirdop : ", clientList[i]);
-<<<<<<< HEAD
-            const balances = await tokenHolder.balanceOf(clientList[i]);
-            console.log("balances : ", balances)
-          
-=======
             const beforeBalances = await tokenMinter.balanceOf(clientList[i]);
             console.log("beforeBalances : ", beforeBalances);
          
->>>>>>> fc36f24e6df98ac3356f50e179be54143293c8f8
+
         }
 
     console.log("Proxy contract address (AirDrop deployed to) : ", airDrop.address);
