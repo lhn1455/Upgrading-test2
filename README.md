@@ -1,29 +1,56 @@
 
-1. 패키지 설치
+# Requirements
+
+- node `v14.19.3`
+- npm `v6.14.17`
+- hardhat `v2.10.1`
+
+
+
+# INSTALL
+
 ```
-npm i @nomiclabs/hardhat-ethers @nomiclabs/hardhat-etherscan @openzeppelin/hardhat-upgrades ethers hardhat
-```
-```
-npm i -D @openzeppelin/contracts @openzeppelin/contracts-upgradeable
+npm install
 ```
 
-2. Logic contract AirDrop.sol 작성
-3. Upgradable contract 함수를 이용해서 배포스크립트 **deploy_airDrop_v1.js**작성 
-4. 첫번째 배포
-    ```
-   npx hardhat run --network rinkeby scripts/deploy_airDrop_v1.js
-   ```
-5. 검증
-   ```
-   npx hardhat verify --network rinkeby [proxy 주소]
-   ```
-6. Logic contract BoxV2 작성
-7. 업그레이드 배포 스크립트 **upgrade_AirDrop_v2.js**작성
-8. 두번째 배포
-    ```
-   npx hardhat run --network rinkeby scripts/upgrade_AirDrop_v2.js
-   ```
-9. 검증
-    ```
-    npx hardhat verify --network rinkeby [AirDrop contract 주소]
-    ```
+
+
+# USAGE
+
+
+## Compile and Deploy Airdrop.sol
+
+```
+npx hardhat run --network rinkeby scripts/deploy_AirDrop_v1.js
+```
+
+## Verify Proxy Contract
+```
+npx hardhat verify --network rinkeby [Proxy Contract Address]
+```
+./openzeppelin/rinkeby.json "proxies" - "address" 확인   
+or   
+Etherscan에서 확인
+
+## confirm the proxy contract
+
+Etherscan > Proxy contact > More Options > Is this proxy? > Verify > Read ad Proxy & Write as Proxy
+
+## Compile and upgrade Airdrop.sol -> AirDropV2.sol
+```
+npx hardhat run --network rinkeby scripts/upgrade_AirDrop_v2.js
+```
+
+## Verify AirDropV2 Contract
+```
+npx hardhat verify --network rinkeby [AirDropV2 Contract Address]
+```
+
+./openzeppelin/rinkeby.json "impls" - "두번째 address" 확인   // 첫번째 address : Airdrop.sol
+or   
+Etherscan에서 확인  
+
+
+## check the proxy contract if it is change or not
+
+Etherscan > Proxy contract > contract > Read ad Proxy & Write as Proxy
