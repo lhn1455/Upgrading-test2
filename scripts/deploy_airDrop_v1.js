@@ -8,32 +8,41 @@ async function main() {
 
     
     const client = await Client.deploy();
+    const tokenMinter = await TokenMinter.deploy("AirToken", "AIR");
 
-    const airDrop = await upgrades.deployProxy(AirDrop, [ client.address ], {
+    const airDrop = await upgrades.deployProxy(AirDrop, [ client.address, tokenMinter.address ], {
         initializer: "initialize",
     });
 
+    
 
-
-    const tokenHolder = await TokenMinter.deploy("AirToken", "AIR", airDrop.address);
     const clientList = await airDrop.getClientAddress();
         for (let i =0; i < clientList.length; i++){
             console.log("clientListFromAirdop : ", clientList[i]);
-            const balances = await tokenHolder.balanceOf(clientList[i]);
-            console.log("balances : ", balances)
+            const beforeBalances = await tokenMinter.balanceOf(clientList[i]);
+            console.log("beforeBalances : ", beforeBalances);
          
         }
 
     console.log("Proxy contract address (AirDrop deployed to) : ", airDrop.address);
-    console.log("client : ", await tokenHolder.name());
-    console.log("Symbol : ", await tokenHolder.symbol());
-    console.log("totalSupply : ", await tokenHolder.totalSupply());
-    console.log("balance of AirDrop contract : ", await tokenHolder.balanceOf(airDrop.address));
-    console.log("balance Of tokenHolder: ", await airDrop.balanceOf(airDrop.address));
-    await airDrop.doAirDrop(airDrop.address,15);
+    console.log("logicContract-AirDrop.sol address :  ", AirDrop.address )
+    console.log("client : ", await tokenMinter.name());
+    console.log("Symbol : ", await tokenMinter.symbol());
+    console.log("totalSupply : ", await tokenMinter.totalSupply());
+    console.log("beforeBalance Of tokenHolder: ", await airDrop.getTokenMinterBalance(tokenMinter.address));
+    // await airDrop.doAirDrop(tokenMinter.address,15); 
+
+   
+    for (let i =0; i < clientList.length; i++){
+        console.log("clientListFromAirdop : ", clientList[i]);
+        const afterBalances = await tokenMinter.balanceOf(clientList[i]);
+        console.log("afterBalances : ", afterBalances)
+    }
+    console.log("Afterbalance Of tokenHolder: ", await airDrop.getTokenMinterBalance(tokenMinter.address));
 
 }
 main();
+
 
 
 
