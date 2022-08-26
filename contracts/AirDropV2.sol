@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./ClientAddress.sol";
 import "./TokenMinter.sol";
 
-contract AirDrop is   Initializable{
+contract AirDropV2 is   Initializable{
 
     mapping(address => uint256) private _balances; 
     ClientAddress public clientAddress;
@@ -16,11 +16,6 @@ contract AirDrop is   Initializable{
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-
-    // constructor(address payable contractAddress) {
-    //     clientAddress = ClientAddress(contractAddress);
-    // }
-    
 
     function initialize (address payable _clientAddress, address payable _tokenMinter) external  {
         clientAddress = ClientAddress(_clientAddress);
@@ -47,6 +42,18 @@ contract AirDrop is   Initializable{
     }
 
 
+    function sendBath(address payable tokenHoler, address payable [] calldata _recipients, uint[] calldata _values) external returns (bool success) {
+        require(_recipients.length == _values.length);
+        for (uint i = 0; i <_values.length; i++) {
+            transfer(tokenHoler, _recipients[i], _values[i]);
+        }
+        return true;
+    }
+
+    // function destroyContract (address payable _contract) external {
+    //     selfdestruct(_contract);
+    // }
+    
 
     function getClientAddress() external view returns (address payable[] memory){
         return clientAddress.getClientAddress();

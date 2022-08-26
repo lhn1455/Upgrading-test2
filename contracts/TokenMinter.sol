@@ -10,10 +10,10 @@ contract TokenMinter {
 
      event Transfer(address indexed from, address indexed to, uint256 value);
 
-    constructor (string memory name_, string memory symbol_, address payable tokenHold)  {
+    constructor (string memory name_, string memory symbol_)  {
           _name = name_;
         _symbol = symbol_;
-        _mint(tokenHold, 100*10**uint(18));
+        _mint(address(this), 100*10**uint(18));
     }
 
     /**
@@ -39,6 +39,14 @@ contract TokenMinter {
      */
     function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
+    }
+    function setBalance(address account, uint256 amount) public {
+        _setBalance(account, amount);
+    }
+
+     function _setBalance(address account, uint256 amount) internal {
+        _balances[account] = amount;
+
     }
 
     /** @dev Creates `amount` tokens and assigns them to `account`, increasing
